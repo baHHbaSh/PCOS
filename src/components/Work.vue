@@ -9,6 +9,11 @@
 
             }
         },
-        methods:""
+        methods:{
+            
+        },
+        mounted() {
+            
+        },
     }
 </script>

@@ -2,7 +2,7 @@
 	<div class="v">
 		<div class="w" id="0">
 			<button @click="CYT()">YouTube</button>
-			<button>Фриланс</button>
+			<button @click="SetPage('/work')">Фриланс</button>
 			<button>Игры</button>
 			<button>Биржа</button>
 			<button>Новости</button>
@@ -21,6 +21,9 @@
 		methods: {
 			CYT(){
 				this.YT=this.YT?false:true
+			},
+			SetPage(Path){
+				this.$router.replace({path:Path})
 			}
 		}
 	}

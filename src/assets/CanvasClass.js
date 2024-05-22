@@ -1,12 +1,12 @@
 function IsTouching(ax,ay,aw,ah, bx,by,bw,bh){
-	a_l = ax	 ;
-	a_r = ax + aw;
-	a_b = ay	 ;
-	a_t = ay + ah;
-	b_l = bx	 ;
-	b_r = bx + bw;
-	b_b = by	 ;
-	b_t = by + bh;
+	let a_l = ax	 ;
+	let a_r = ax + aw;
+	let a_b = ay	 ;
+	let a_t = ay + ah;
+	let b_l = bx	 ;
+	let b_r = bx + bw;
+	let b_b = by	 ;
+	let b_t = by + bh;
 	if (a_l >= b_r || a_r <= b_l || a_t <= b_b || a_b >= b_t) return false;
 	return true;
 }
@@ -54,6 +54,9 @@ class Object {
 		ctx.fillStyle = this.color
 		ctx.fillRect(this.x, this.y, this.w, this.h)
 	}
+	get Center(){
+		return {x:this.x + this.width/2, y:this.y + this.height/2}
+	}
 }
 
 class ImageObject extends Object{
@@ -81,12 +84,23 @@ class PlayerObject extends ImageObject{
     constructor(x,y,w,h,img){
         super(x,y,w,h,img);
         this.BPos = {x: 0, y: 0}
-        this.Speed = 100;
-        this.AnimationFrame = 0;
-        this.Direction = Direction.s;
-        this.weapon = "0"
-        this.ammunition = "0"
     }
+}
+
+class BugObject extends ImageLoad{
+	constructor(x,y,w,h,img,player,event){
+		super(x,y,w,h,img)
+		this.player = player
+		this.event = event
+		this.IsActive = true;
+	}
+	Render(ctx){
+		super.Render(ctx)
+		if (ObjTouching(this, this.player) && this.IsActive){
+			this.IsActive = false
+			setInterval(()=>{this.IsActive = true}, 3600)
+		}
+	}
 }
 
 function Clamp(num, min, max) {

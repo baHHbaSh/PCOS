@@ -87,7 +87,29 @@ class PlayerObject extends ImageObject{
     }
 }
 
-class BugObject extends ImageLoad{
+class BugObject extends ImageObject{
+	constructor(x,y,w,h,img,player,event){
+		super(x,y,w,h,img)
+		this.player = player
+		this.event = event
+		this.IsActive = false;
+		setInterval(()=>{this.IsActive = true}, 2000 + Math.random() )//* 1000000
+	}
+	Render(ctx){
+		if (ObjTouching(this, this.player) && this.IsActive){
+			this.IsActive = false
+			setInterval(()=>{this.IsActive = true}, 3600*1000)
+			this.event()
+		}
+		ctx.fillStyle="#222"
+		ctx.fillRect(this.x, this.y, this.w, this.h)
+		if (this.IsActive){
+			super.Render(ctx)
+		}
+	}
+}
+
+class ShopObject extends ImageObject{
 	constructor(x,y,w,h,img,player,event){
 		super(x,y,w,h,img)
 		this.player = player
@@ -95,11 +117,14 @@ class BugObject extends ImageLoad{
 		this.IsActive = true;
 	}
 	Render(ctx){
-		super.Render(ctx)
 		if (ObjTouching(this, this.player) && this.IsActive){
 			this.IsActive = false
 			setInterval(()=>{this.IsActive = true}, 3600)
+			this.event()
 		}
+		ctx.fillStyle="#222"
+		ctx.fillRect(this.x, this.y, this.w, this.h)
+		super.Render(ctx)
 	}
 }
 
@@ -107,4 +132,4 @@ function Clamp(num, min, max) {
 	return num < min ? min : num > max ? max : num;
 }
 
-export {Object, IsTouching, ObjTouching, ImageLoad, ImageObject, Clamp, PlayerObject};
+export {Object, IsTouching, ObjTouching, ImageLoad, ImageObject, Clamp, PlayerObject, BugObject, ShopObject};

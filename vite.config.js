@@ -13,5 +13,5 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  base: './', // этот параметр настроит относительные пути
+  base: '/PCOS', // этот параметр настроит относительные пути
 })

@@ -1,9 +1,9 @@
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import App from './App.vue'
-import MainPage from './components/MainPage.vue'
-import Work from './components/Work.vue'
-import Market from './components/Market.vue'
+import App from '@/App.vue'
+import MainPage from '@/components/MainPage.vue'
+import Work from '@/components/Work.vue'
+import Market from '@/components/Market.vue'
 import "@/assets/OS.css"
 
 /*

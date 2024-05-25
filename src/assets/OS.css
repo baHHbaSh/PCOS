@@ -19,11 +19,11 @@ body{
 button{
     height: 100%;
     width: 30%;
-    border-radius: 20px !important;
+    border-radius: 20px;
     color: white;
     font-size: 300%;
     border: 3px solid rgb(112, 0, 0);
-    transition: all 900ms;
+    transition: all 300ms;
     margin: 2%;
     background-color: rgb(112, 0, 0);
 }
@@ -31,6 +31,19 @@ button::before{
     height: 0%;
 }
 button:hover{
+    transition: all 900ms;
     background-color: rgba(211, 180, 0, 0);
     border: 3px solid rgb(0, 4, 255);
+    height: 101%;
+    width: 31%;
+}
+button:active{
+    transition: all 200ms;
+    height: 103%;
+    width: 33%;
+}
+button:focus{
+    height: 105%;
+    width: 40%;
+    border-radius: 40px;
 }

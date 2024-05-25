@@ -4,7 +4,7 @@
 			<button @click="CYT()">YouTube</button>
 			<button @click="ToWork()">Фриланс</button>
 			<button @click="Game()">Игры</button>
-			<button>Биржа</button>
+			<button @click="ToMarkest()">Биржа</button>
 			<button>Новости</button>
 		</div>
 		<iframe v-if="YT" width="863" height="396" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"

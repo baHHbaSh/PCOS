@@ -9,10 +9,11 @@
 	</div>
 	<div v-for="(war, k) in War" :key="k">
 		<div class="challenge">
+			<p> {{war}} </p>
 			<h1>{{ war[0] }}</h1>
 			<p>x=</p>
 			<div class="row">
-				<button @click="Answer(answer, war[2])" v-for="(answer, p) in shuffleArray(war[1])"
+				<button @click="Answer(answer, war[2], war[3])" v-for="(answer, p) in shuffleArray(war[1])"
 					:key="p">{{ answer }}</button>
 			</div>
 		</div>
@@ -25,9 +26,9 @@ import { level } from "@/assets/map"
 import PlayerImage from "@/assets/player.png"
 import BugImage from "@/assets/bug.png"
 import ShopImage from "@/assets/shop.png"
+import { Spec } from "@/main";
 export default {
 	name: "Work",
-	props: ["CPU", "GPU", "RAM", "ROM", "SetCycleDataFunc", "GetCycleDataFunc"],
 	data() {
 		return {
 			Canvas: undefined,
@@ -55,13 +56,14 @@ export default {
 		},
 		Randint(min, max) { return min + Math.round(Math.random() * (max - min)) },
 		Answer(Ans, x, Hard) {
+			console.log(Hard)
 			if (Ans == x) {
-				if (this.CollectedBug.length < this.ROM * 2) { this.CollectedBug.push(Hard) }
+				if (this.CollectedBug.length < this.ROM * 2) { this.CollectedBug.push(+Hard) }
 			}
 			else this.Lives--
 			this.War.pop()
 			console.log(this.Lives / this.RAM * 100)
-			if (Math.round(this.Lives / this.RAM * 100) <= 0) { console.log("defeat"); this.$router.replace("/") }
+			if (Math.round(this.Lives / this.RAM * 100) <= 0) { console.log("defeat"); this.$router.replace("/PCOS") }
 			setTimeout(this.TMPFUNC, 36000 * 1000)
 		},
 		GetChallenge(func) {
@@ -75,47 +77,47 @@ export default {
 				let fs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9][Math.round(Math.random() * 8) + (zn == "-" ? 1 : 0)]
 				let x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9][zn == "-" ? this.Randint(fs, 9) : Math.round(Math.random() * 9)]
 				let Shg = Math.round(Math.random() * 5) + 1
-				return [`${fs} ${zn} x = ${eval(fs + zn + x)}`, [x, x - Shg, x + Shg, x + 1 + Math.round(Math.random() * 4) + Shg], x]
+				return [`${fs} ${zn} x = ${eval(fs + zn + x)}`, [x, x - Shg, x + Shg, x + 1 + Math.round(Math.random() * 4) + Shg], x, Hard]
 			}
 			else if (Hard == 2) {
 				let zn = Math.random() > .5 ? "+" : "-"
 				let fs = this.Randint(9, zn == "+" ? 49 : 99)
 				let x = this.Randint(9, zn == "+" ? 49 : fs)
 				let Shg = Math.round(Math.random() * 5) + 1
-				return [`${fs} ${zn} x = ${eval(fs + zn + x)}`, [x, x - Shg, x + Shg, x + 1 + Math.round(Math.random() * 4) + Shg], x]
+				return [`${fs} ${zn} x = ${eval(fs + zn + x)}`, [x, x - Shg, x + Shg, x + 1 + Math.round(Math.random() * 4) + Shg], x, Hard]
 			}
 			else if (Hard == 3) {
 				let zn = Math.random() > .5 ? "+" : "-"
 				let fs = this.Randint(-100, 100)
 				let x = this.Randint(-100, 100)
 				let Shg = Math.round(Math.random() * 5) + 1
-				return [`${fs} ${zn} x = ${eval(`${fs} ${zn} ${x}`)}`, [x, x - Shg, x + Shg, x + 1 + Math.round(Math.random() * 4) + Shg], x]
+				return [`${fs} ${zn} x = ${eval(`${fs} ${zn} ${x}`)}`, [x, x - Shg, x + Shg, x + 1 + Math.round(Math.random() * 4) + Shg], x, Hard]
 			}
 			else if (Hard == 4) {
 				let zn = Math.random() > .5 ? "+" : "-"
 				let fs = this.Randint(-1000, 1000)
 				let x = this.Randint(-1000, 1000)
 				let Shg = Math.round(Math.random() * 5) + 1
-				return [`${fs} ${zn} x = ${eval(`${fs} ${zn} ${x}`)}`, [x, x - Shg, x + Shg, x + 1 + Math.round(Math.random() * 4) + Shg], x]
+				return [`${fs} ${zn} x = ${eval(`${fs} ${zn} ${x}`)}`, [x, x - Shg, x + Shg, x + 1 + Math.round(Math.random() * 4) + Shg], x, Hard]
 			}
 			else if (Hard == 5) {
 				let fs = this.Randint(-10, 10)
 				fs = fs == 0 ? 2 : fs
 				let x = this.Randint(-10, 10)
 				let Shg = Math.round(Math.random() * 5) + 1
-				return [`${fs} * x = ${eval(`${fs} * ${x}`)}`, [x, x - Shg, x + Shg, x + 1 + Math.round(Math.random() * 4) + Shg], x]
+				return [`${fs} * x = ${fs * x}}`, [x, x - Shg, x + Shg, x + 1 + Math.round(Math.random() * 4) + Shg], x, Hard]
 			}
 			else if (Hard == 6) {
 				let result = this.Randint(-10, 10)
 				let x = this.Randint(1, 10)
 				let Shg = Math.round(Math.random() * 5) + 1
-				return [`${result * x} / x = ${result}`, [x, x - Shg, x + Shg, x + 1 + Math.round(Math.random() * 4) + Shg], x]
+				return [`${result * x} / x = ${result}`, [x, x - Shg, x + Shg, x + 1 + Math.round(Math.random() * 4) + Shg], x, Hard]
 			}
 			else if (Hard == 7) {
 				let result = this.Randint(-1000, 1000)
 				let x = this.Randint(1, 10)
 				let Shg = Math.round(Math.random() * 5) + 1
-				return [`${result * x} / x = ${result}`, [x, x - Shg, x + Shg, x + 1 + Math.round(Math.random() * 4) + Shg], x]
+				return [`${result * x} / x = ${result}`, [x, x - Shg, x + Shg, x + 1 + Math.round(Math.random() * 4) + Shg], x, Hard]
 			}
 			else if (Hard == 8) {
 				let zn1 = ["+", "-"][this.Randint(0, 1)]
@@ -124,7 +126,7 @@ export default {
 				let x = this.Randint(-10, 10)
 				let ts = this.Randint(-10, 10)
 				let Shg = Math.round(Math.random() * 5) + 1
-				return [`${fs} ${zn1} x ${zn2} ${ts} = ${eval(`${fs} ${zn1} ${x} ${zn2} ${ts}`)}`, [x, x - Shg, x + Shg, x + 1 + Math.round(Math.random() * 4) + Shg], x]
+				return [`${fs} ${zn1} x ${zn2} ${ts} = ${eval(`${fs} ${zn1} ${x} ${zn2} ${ts}`)}`, [x, x - Shg, x + Shg, x + 1 + Math.round(Math.random() * 4) + Shg], x, Hard]
 			}
 			else if (Hard == 9) {
 				let zn1 = ["+", "-"][this.Randint(0, 1)]
@@ -133,7 +135,7 @@ export default {
 				let x = this.Randint(-50, 50)
 				let ts = this.Randint(-10, 10)
 				let Shg = Math.round(Math.random() * 5) + 1
-				return [`${fs} ${zn1} x ${zn2} ${ts} = ${eval(`${fs} ${zn1} ${x} ${zn2} ${ts}`)}`, [x, x - Shg, Math.abs(x + Shg), x + 1 + Math.round(Math.random() * 4) + Shg], x]
+				return [`${fs} ${zn1} x ${zn2} ${ts} = ${eval(`${fs} ${zn1} ${x} ${zn2} ${ts}`)}`, [x, x - Shg, Math.abs(x + Shg), x + 1 + Math.round(Math.random() * 4) + Shg], x, Hard]
 			}
 		},
 		PlayerTouchWall() {
@@ -198,6 +200,7 @@ export default {
 			this.WallsList.forEach(obj => this.RenderList.push(obj))
 			this.GameCycle = setInterval(() => { this.RenderCanvas() }, .16)
 			this.RenderList.push(this.Player);
+			
 		},
 		Resize() {
 			this.Canvas.width = window.innerWidth;
@@ -206,14 +209,13 @@ export default {
 		},
 		SellAndLeave() {
 			try {
-				let money = this.GetCycleDataFunc()["money"]
-				this.CollectedBug.forEach(price => { money += price ** 2 })
-				SetCycleDataFunc("money", money)
+				this.CollectedBug.forEach(Bprice => { console.log(this.money, Bprice, this.CollectedBug); this.money += Bprice ** 2 })
+				parent.postMessage({ money: this.money, CPU: this.CPU, RAM: this.RAM, ROM: this.ROM, GPU: this.GPU, play: this.play, sleep: this.sleep, hp: this.hp, water: this.water, toilet: this.toilet, hygiene: this.hygiene },window.location.origin)
 			}
 			catch {
 				console.error("Функция не была найдена, результат не сохранён, проверь Spec")
 			}
-			this.$router.replace("/")
+			this.$router.replace("/PCOS")
 		},
 	},
 	mounted() {
@@ -225,7 +227,12 @@ export default {
 		window.removeEventListener("resize", this.Resize)
 		document.removeEventListener("keydown", this.SetListenerDown)
 		document.removeEventListener("keyup", this.SetListenerUp)
-	}
+	},
+	setup() {
+        // It will be reactive, and the component
+        // will update whenever Spec updates
+        return { ...Spec }
+    }
 };
 </script>
 <style scoped>

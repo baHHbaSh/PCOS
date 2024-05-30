@@ -4,8 +4,6 @@
 			<button @click="CYT()">YouTube</button>
 			<button @click="ToWork()">Фриланс</button>
 			<button @click="Game()">Игры</button>
-			<button @click="ToMarkest()">Биржа</button>
-			<button>Новости</button>
 		</div>
 		<iframe v-if="YT" width="863" height="396" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
 			title="YouTube" frameborder="0"
@@ -14,9 +12,11 @@
 	</div>
 </template>
 <script>
+import { Spec } from '@/main.js';
+
 export default {
+
 	name: "MainPage",
-	props: ["SetCycleDataFunc", "GetCycleDataFunc"],
 	data() {
 		return {
 			YT: false,
@@ -31,20 +31,25 @@ export default {
 		},
 		ToWork() {
 			try {
-				SetCycleDataFunc("game", GetCycleDataFunc()["game"] / 2)
+				this.play /= 2
 			}
-			catch { }
-			this.SetPage('/work')
+			catch (error) { console.error(error.stack); }
+			this.SetPage('/PCOS/work')
 		},
 		Game() {
 			try {
-				SetCycleDataFunc("game", 100)
+				this.Save()
 			}
-			catch { }
+			catch (error) { console.error(error.stack); }
 		},
-		ToMarkest() {
-			this.SetPage("/markets")
+		Save(){
+			parent.postMessage({ money: this.money, CPU: this.CPU, RAM: this.RAM, ROM: this.ROM, GPU: this.GPU, play: this.play, sleep: this.sleep, hp: this.hp, water: this.water, toilet: this.toilet, hygiene: this.hygiene },window.location.origin)
 		}
-	}
+	},
+	setup() {
+        // It will be reactive, and the component
+        // will update whenever Spec updates
+        return { ...Spec }
+    }
 }
 </script>

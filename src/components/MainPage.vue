@@ -33,7 +33,7 @@ export default {
 			if (this.play > 0){
 				this.play /= 2;
 				this.Save();
-				this.$router.SetPage("/PCOS/work")
+				this.SetPage("/PCOS/work")
 			}
 			else{
 				alert("Какая работа? Лучше поиграю.")

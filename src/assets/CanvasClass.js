@@ -93,7 +93,7 @@ class BugObject extends ImageObject {
 		this.player = player
 		this.event = event
 		this.IsActive = false;
-		setTimeout(() => { this.IsActive = true }, 0 + Math.random() * 0)
+		setTimeout(() => { this.IsActive = true }, 5000 + Math.random() * (20 * 60 * 60 * 1000))
 	}
 	Render(ctx) {
 		if (ObjTouching(this, this.player) && this.IsActive) {

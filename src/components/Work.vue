@@ -9,7 +9,6 @@
 	</div>
 	<div v-for="(war, k) in War" :key="k">
 		<div class="challenge">
-			<p> {{war}} </p>
 			<h1>{{ war[0] }}</h1>
 			<p>x=</p>
 			<div class="row">
@@ -43,7 +42,7 @@ export default {
 			CollectedBug: [],
 			War: [],
 			TMPFUNC: null,
-			LastHard: undefined,
+			LastHard: undefined
 		}
 	},
 	methods: {
@@ -210,7 +209,7 @@ export default {
 		SellAndLeave() {
 			try {
 				this.CollectedBug.forEach(Bprice => { console.log(this.money, Bprice, this.CollectedBug); this.money += Bprice ** 2 })
-				parent.postMessage({ money: this.money, CPU: this.CPU, RAM: this.RAM, ROM: this.ROM, GPU: this.GPU, play: this.play, sleep: this.sleep, hp: this.hp, water: this.water, toilet: this.toilet, hygiene: this.hygiene },window.location.origin)
+				parent.postMessage({ money: this.money },window.location.origin)
 			}
 			catch {
 				console.error("Функция не была найдена, результат не сохранён, проверь Spec")

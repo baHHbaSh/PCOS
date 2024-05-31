@@ -30,11 +30,14 @@ export default {
 			this.$router.replace({ path: Path })
 		},
 		ToWork() {
-			try {
-				this.play /= 2
+			if (this.play > 0){
+				this.play /= 2;
+				this.Save();
+				this.$router.SetPage("/PCOS/work")
 			}
-			catch (error) { console.error(error.stack); }
-			this.SetPage('/PCOS/work')
+			else{
+				alert("Какая работа? Лучше поиграю.")
+			}
 		},
 		Game() {
 			try {
@@ -43,13 +46,13 @@ export default {
 			catch (error) { console.error(error.stack); }
 		},
 		Save(){
-			parent.postMessage({ money: this.money, CPU: this.CPU, RAM: this.RAM, ROM: this.ROM, GPU: this.GPU, play: this.play, sleep: this.sleep, hp: this.hp, water: this.water, toilet: this.toilet, hygiene: this.hygiene },window.location.origin)
+			parent.postMessage({ play: this.play },window.location.origin)
 		}
 	},
 	setup() {
-        // It will be reactive, and the component
-        // will update whenever Spec updates
-        return { ...Spec }
-    }
+		// It will be reactive, and the component
+		// will update whenever Spec updates
+		return { ...Spec }
+	}
 }
 </script>

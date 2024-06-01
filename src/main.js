@@ -50,7 +50,7 @@ export const Spec = reactive({
 
 window.addEventListener("message", event => {
     //  Update global state
-    for (let key in Spec) { // Or Object.assign, etc
+    for (let key in event.data) { // Or Object.assign, etc
         Spec[key] = event.data[key];
     }
 });
